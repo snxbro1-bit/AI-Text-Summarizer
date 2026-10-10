@@ -1,32 +1,606 @@
 
-<div style="max-width:1100px;margin:20px auto;font-family:Arial,sans-serif;color:#202747;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#eaf7ff">
+<meta name="description" content="Summarize long text instantly with our free AI Text Summarizer. Create short, clear summaries for study, work and research.">
+<title>AI Text Summarizer - Free Tools Zone</title>
 
-  <div style="text-align:center;padding:25px 12px;background:linear-gradient(135deg,#fff0e7,#fff8ee);border-radius:18px;margin-bottom:18px;">
-    <span style="display:inline-block;background:#fff;padding:6px 12px;border:1px solid #f2d7cb;border-radius:30px;font-size:12px;font-weight:bold;">✦ FREE ONLINE AI TOOL</span>
-    <h2 style="font-size:30px;margin:15px 0 8px;color:#e75e46;">AI Text Summarizer</h2>
-    <p style="color:#73798c;line-height:1.8;margin:0;">Summarize long text into clear, concise and useful key points.</p>
-  </div>
+<style>
+:root {
+  --blue: #54a9f5;
+  --blue-dark: #2477c8;
+  --blue-light: #eaf6ff;
+  --green: #70d7ae;
+  --green-dark: #238a67;
+  --green-light: #e9fff4;
+  --text: #20364a;
+  --muted: #6c8092;
+  --white: #ffffff;
+  --border: #dcebf2;
+  --shadow: 0 12px 36px rgba(47, 113, 151, .10);
+}
 
-  <div style="overflow:hidden;border:1px solid #eee2da;border-radius:16px;background:#fff8f1;">
-    <iframe
-      src="https://snxbro1-bit.github.io/AI-Text-Summarizer/"
-      title="Free AI Text Summarizer"
-      width="100%"
-      height="1250"
-      style="display:block;width:100%;border:0;"
-      loading="lazy"
-      allow="clipboard-write">
-    </iframe>
-  </div>
+* { box-sizing: border-box; }
 
-  <div style="padding:18px;margin-top:18px;border:1px solid #eee2da;border-radius:14px;background:#fff;">
-    <h3 style="margin:0 0 10px;color:#202747;">How to Use</h3>
-    <ol style="padding-left:22px;color:#73798c;line-height:1.9;font-size:14px;">
-      <li>Paste your text into the input box.</li>
-      <li>Select summary length and output language.</li>
-      <li>Choose the content type.</li>
-      <li>Click Generate Summary.</li>
-      <li>Copy or download your summary.</li>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  background: linear-gradient(135deg, #f2faff, #f1fff8);
+  line-height: 1.6;
+}
+
+button, textarea, select { font: inherit; }
+
+.container {
+  width: min(100% - 28px, 1050px);
+  margin: auto;
+}
+
+/* Banner only: change these colors if needed */
+.banner {
+  margin: 22px auto;
+  padding: 34px 25px;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  border-radius: 24px;
+  color: #18364b;
+  background: linear-gradient(120deg, #dff2ff 0%, #e7fff0 55%, #c9f2e0 100%);
+  border: 1px solid #d2eee7;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.banner-copy { max-width: 650px; }
+
+.banner-label {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 30px;
+  background: #ffffffc9;
+  color: #25836c;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.banner h1 {
+  margin: 12px 0 6px;
+  font-size: clamp(28px, 5vw, 43px);
+  line-height: 1.15;
+  letter-spacing: -.8px;
+}
+
+.banner p {
+  margin: 5px 0;
+  color: #49677a;
+}
+
+.banner .tagline {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2879a0;
+}
+
+.banner-visual {
+  min-width: 155px;
+  text-align: center;
+  font-size: 76px;
+  filter: drop-shadow(0 8px 12px #70b5a455);
+}
+
+header { text-align: center; padding: 12px 10px 22px; }
+
+header h2 {
+  margin: 0 0 5px;
+  font-size: clamp(24px, 4vw, 32px);
+}
+
+header p { margin: 0; color: var(--muted); }
+
+.app {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: clamp(18px, 4vw, 30px);
+  box-shadow: var(--shadow);
+  margin-bottom: 25px;
+}
+
+.field-label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  min-height: 230px;
+  resize: vertical;
+  padding: 15px;
+  color: var(--text);
+  border: 1px solid #cfe2ed;
+  border-radius: 13px;
+  outline: none;
+  background: #fbfeff;
+}
+
+textarea:focus, select:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px #54a9f522;
+}
+
+textarea::placeholder { color: #9aaeba; }
+
+.char-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 7px;
+}
+
+.settings {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+  margin: 22px 0;
+}
+
+.setting label {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+select {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 10px;
+  border-radius: 11px;
+  border: 1px solid #d5e6ed;
+  background: #faffff;
+  color: var(--text);
+  outline: none;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+button {
+  border: 0;
+  border-radius: 11px;
+  padding: 12px 19px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .15s, opacity .15s;
+}
+
+button:hover { transform: translateY(-1px); }
+button:disabled { opacity: .6; cursor: wait; transform: none; }
+
+.primary {
+  color: #fff;
+  background: linear-gradient(100deg, #4c9fe9, #53c9a0);
+  flex: 1 1 210px;
+}
+
+.secondary {
+  color: #286d87;
+  background: #eaf7ff;
+  border: 1px solid #d5ebf6;
+}
+
+.green-btn {
+  color: #247355;
+  background: #e8fff2;
+  border: 1px solid #ccefdc;
+}
+
+.status {
+  display: none;
+  padding: 12px 14px;
+  border-radius: 11px;
+  margin-top: 15px;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.status.show { display: block; }
+.status.info { background: #edf7ff; color: #28648d; }
+.status.error { background: #fff0ef; color: #a53c35; }
+.status.success { background: #eafff3; color: #247452; }
+
+.output-section {
+  margin-top: 25px;
+  padding-top: 23px;
+  border-top: 1px solid #e7f0f4;
+}
+
+.output-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.output-heading h3 { margin: 0; }
+
+.output-box {
+  min-height: 150px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding: 17px;
+  border-radius: 13px;
+  border: 1px solid #d9eee5;
+  background: linear-gradient(135deg, #f5fbff, #f1fff7);
+}
+
+.output-placeholder { color: #8196a5; }
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 13px;
+}
+
+.stat {
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #f0f9ff;
+  color: #3b6d8b;
+  font-size: 13px;
+}
+
+.info-card {
+  margin: 24px 0;
+  padding: 20px;
+  border-radius: 17px;
+  border: 1px solid #dcefe6;
+  background: #f7fffb;
+}
+
+.info-card h3 { margin: 0 0 8px; }
+.info-card p, .info-card li { color: #5b7181; }
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  padding: 8px 12px 28px;
+  font-size: 13px;
+}
+
+footer strong { color: #3188a5; }
+
+@media (max-width: 650px) {
+  .banner { padding: 25px 19px; }
+  .banner-visual { min-width: 80px; font-size: 48px; }
+  .settings { grid-template-columns: 1fr; gap: 12px; }
+  .app { border-radius: 17px; }
+  textarea { min-height: 200px; }
+  .actions button { flex: 1 1 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <section class="banner">
+    <div class="banner-copy">
+      <span class="banner-label">FREE ONLINE AI TOOL</span>
+      <h1>AI Text Summarizer</h1>
+      <p class="tagline">Long Text. Clear Ideas.</p>
+      <p>Summarize • Understand • Save Time</p>
+      <p><strong>FREE TOOLS ZONE</strong></p>
+    </div>
+    <div class="banner-visual" aria-hidden="true">📄✨</div>
+  </section>
+
+  <header>
+    <h2>Summarize Text with AI</h2>
+    <p>Turn lengthy text into a clear, easy-to-read summary.</p>
+  </header>
+
+  <main class="app">
+    <label class="field-label" for="sourceText">Paste your text</label>
+    <textarea id="sourceText" maxlength="20000"
+      placeholder="Paste an article, lesson, assignment, notes, or any long text here..."></textarea>
+
+    <div class="char-row">
+      <span id="charCount">0 / 20,000 characters</span>
+      <span>Tip: Include the complete text for better results.</span>
+    </div>
+
+    <div class="settings">
+      <div class="setting">
+        <label for="length">Summary length</label>
+        <select id="length">
+          <option value="short">Short</option>
+          <option value="medium" selected>Medium</option>
+          <option value="detailed">Detailed</option>
+        </select>
+      </div>
+
+      <div class="setting">
+        <label for="language">Output language</label>
+        <select id="language">
+          <option value="English" selected>English</option>
+          <option value="Sinhala">Sinhala</option>
+          <option value="Tamil">Tamil</option>
+        </select>
+      </div>
+
+      <div class="setting">
+        <label for="level">Content type</label>
+        <select id="level">
+          <option value="General">General</option>
+          <option value="School">School</option>
+          <option value="A/L">A/L</option>
+          <option value="University">University</option>
+          <option value="Article">Article</option>
+          <option value="Business">Business</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="primary" id="summarizeBtn" type="button">
+        ✨ Generate Summary
+      </button>
+      <button class="secondary" id="clearBtn" type="button">Clear Text</button>
+    </div>
+
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+
+    <section class="output-section">
+      <div class="output-heading">
+        <h3>Your Summary</h3>
+        <div class="actions">
+          <button class="secondary" id="copyBtn" type="button">Copy</button>
+          <button class="green-btn" id="downloadBtn" type="button">Download TXT</button>
+        </div>
+      </div>
+
+      <div id="output" class="output-box" aria-live="polite">
+        <span class="output-placeholder">Your generated summary will appear here.</span>
+      </div>
+
+      <div class="stats">
+        <div class="stat">Original words: <strong id="originalWords">0</strong></div>
+        <div class="stat">Summary words: <strong id="summaryWords">0</strong></div>
+        <div class="stat">Reduction: <strong id="reduction">0%</strong></div>
+      </div>
+    </section>
+  </main>
+
+  <section class="info-card">
+    <h3>How to use the AI Text Summarizer</h3>
+    <ol>
+      <li>Paste your text into the text box.</li>
+      <li>Choose your preferred summary length and language.</li>
+      <li>Select the content type that matches your text.</li>
+      <li>Click Generate Summary and wait for the result.</li>
+      <li>Copy the summary or download it as a text file.</li>
     </ol>
-  </div>
+    <p>This tool helps with studying, reading articles, reviewing notes, and understanding lengthy text. Always verify important facts against the original source.</p>
+  </section>
+
+  <footer>
+    Made for learners and readers by <strong>Free Tools Zone</strong>.
+  </footer>
+
 </div>
+
+<script>
+(() => {
+  "use strict";
+
+  const API_URL = "https://ftz-ai-api.snxbro1.workers.dev/";
+  const MAX_CHARS = 20000;
+
+  const $ = id => document.getElementById(id);
+  const sourceText = $("sourceText");
+  const output = $("output");
+  const status = $("status");
+  const summarizeBtn = $("summarizeBtn");
+
+  let currentSummary = "";
+
+  function countWords(text) {
+    const clean = String(text || "").trim();
+    return clean ? clean.split(/\s+/).length : 0;
+  }
+
+  function updateCharCount() {
+    $("charCount").textContent =
+      `${sourceText.value.length.toLocaleString()} / ${MAX_CHARS.toLocaleString()} characters`;
+  }
+
+  function showStatus(message, type = "info") {
+    status.textContent = message;
+    status.className = `status show ${type}`;
+  }
+
+  function clearStatus() {
+    status.textContent = "";
+    status.className = "status";
+  }
+
+  function updateStats(original, summary) {
+    const originalWords = countWords(original);
+    const summaryWords = countWords(summary);
+    const percent = originalWords
+      ? Math.max(0, Math.round((1 - summaryWords / originalWords) * 100))
+      : 0;
+
+    $("originalWords").textContent = originalWords.toLocaleString();
+    $("summaryWords").textContent = summaryWords.toLocaleString();
+    $("reduction").textContent = `${percent}%`;
+  }
+
+  function resetOutput() {
+    currentSummary = "";
+    output.textContent = "Your generated summary will appear here.";
+    output.classList.add("output-placeholder");
+    updateStats(sourceText.value, "");
+  }
+
+  sourceText.addEventListener("input", updateCharCount);
+
+  $("clearBtn").addEventListener("click", () => {
+    sourceText.value = "";
+    updateCharCount();
+    resetOutput();
+    clearStatus();
+    sourceText.focus();
+  });
+
+  summarizeBtn.addEventListener("click", async () => {
+    const text = sourceText.value.trim();
+
+    if (!text) {
+      showStatus("Please paste some text before generating a summary.", "error");
+      sourceText.focus();
+      return;
+    }
+
+    if (text.length > MAX_CHARS) {
+      showStatus(`Please keep your text under ${MAX_CHARS.toLocaleString()} characters.`, "error");
+      return;
+    }
+
+    summarizeBtn.disabled = true;
+    summarizeBtn.textContent = "⏳ Generating...";
+    showStatus("Your summary is being generated. Please wait.", "info");
+
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mode: "text_summarizer",
+          text: text,
+          summaryLength: $("length").value,
+          language: $("language").value,
+          contentType: $("level").value
+        })
+      });
+
+      let data;
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error("The server returned an invalid response. Please try again.");
+      }
+
+      if (!response.ok || data.success === false) {
+        throw new Error(
+          data.error ||
+          data.details ||
+          `Request failed (${response.status}). Please try again later.`
+        );
+      }
+
+      const summary = data.summary || data.text || data.result || data.output;
+
+      if (typeof summary !== "string" || !summary.trim()) {
+        throw new Error("No summary was returned. Please try again.");
+      }
+
+      currentSummary = summary.trim();
+      output.textContent = currentSummary;
+      output.classList.remove("output-placeholder");
+      updateStats(text, currentSummary);
+      showStatus("Summary generated successfully!", "success");
+
+    } catch (error) {
+      console.error("Summarizer error:", error);
+      showStatus(
+        error.message ||
+        "Unable to connect to the AI service. Please try again later.",
+        "error"
+      );
+    } finally {
+      summarizeBtn.disabled = false;
+      summarizeBtn.textContent = "✨ Generate Summary";
+    }
+  });
+
+  $("copyBtn").addEventListener("click", async () => {
+    if (!currentSummary) {
+      showStatus("Generate a summary before copying.", "error");
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(currentSummary);
+      showStatus("Summary copied to clipboard!", "success");
+    } catch {
+      const area = document.createElement("textarea");
+      area.value = currentSummary;
+      document.body.appendChild(area);
+      area.select();
+
+      try {
+        const copied = document.execCommand("copy");
+        showStatus(
+          copied ? "Summary copied!" : "Copy failed. Please select and copy the text manually.",
+          copied ? "success" : "error"
+        );
+      } catch {
+        showStatus("Copy failed. Please select and copy the text manually.", "error");
+      } finally {
+        area.remove();
+      }
+    }
+  });
+
+  $("downloadBtn").addEventListener("click", () => {
+    if (!currentSummary) {
+      showStatus("Generate a summary before downloading.", "error");
+      return;
+    }
+
+    const blob = new Blob([currentSummary], {
+      type: "text/plain;charset=utf-8"
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "ai-text-summary.txt";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+
+    showStatus("Your summary download has started.", "success");
+  });
+
+  updateCharCount();
+  updateStats("", "");
+})();
+</script>
+</body>
+</html>
